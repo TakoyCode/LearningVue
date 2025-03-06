@@ -3,11 +3,11 @@
 export default {
   data() {
     return {
-      name: "John Doe",
+      name: 'John Doe',
       status: false,
-      statusStr: "pending",
-      tasks: ["Task One", "Task Two", "Task Three"],
-      link: "https://google.com",
+      statusStr: 'pending',
+      tasks: ['Task One', 'Task Two', 'Task Three'],
+      link: 'https://google.com',
     };
   },
   methods: {
@@ -15,12 +15,12 @@ export default {
       this.status = !this.status;
     },
     toggleStatusStr() {
-      if (this.statusStr === "active") {
-        this.statusStr = "pending";
-      } else if (this.statusStr === "pending") {
-        this.statusStr = "inactive";
+      if (this.statusStr === 'active') {
+        this.statusStr = 'pending';
+      } else if (this.statusStr === 'pending') {
+        this.statusStr = 'inactive';
       } else {
-        this.statusStr = "active";
+        this.statusStr = 'active';
       }
     },
   },
