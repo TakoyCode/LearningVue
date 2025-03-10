@@ -128,3 +128,6 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Folder with resources to help follow the crashcourse
+vue-crash-2024-main/
