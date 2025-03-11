@@ -1,26 +1,24 @@
 <script setup>
-import { defineProps } from 'vue';
+import { defineProps, ref, computed } from 'vue';
 
-defineProps({
+const props = defineProps({
   job: {
     type: Object,
-    default: {
-      id: 1,
-      title: 'Senior Vue Developer',
-      type: 'Full-Time',
-      description:
-        'We are seeking a talented Front-End Developer to join our team in Boston, MA. The ideal candidate will have strong skills in HTML, CSS, and JavaScript, with experience working with modern JavaScript frameworks such as Vue or Angular.',
-      location: 'Boston, MA',
-      salary: '$70K - $80K',
-      company: {
-        name: 'NewTek Solutions',
-        description:
-          'NewTek Solutions is a leading technology company specializing in web development and digital solutions. We pride ourselves on delivering high-quality products and services to our clients while fostering a collaborative and innovative work environment.',
-        contactEmail: 'contact@teksolutions.com',
-        contactPhone: '555-555-5555',
-      },
-    },
   },
+});
+
+const showFullDescription = ref(false);
+
+const toggleFullDescription = () => {
+  showFullDescription.value = !showFullDescription.value;
+};
+
+const truncatedDescription = computed(() => {
+  let description = props.job.description;
+  if (!showFullDescription.value) {
+    description = description.substring(0, 90) + '...';
+  }
+  return description;
 });
 </script>
 
@@ -33,7 +31,13 @@ defineProps({
       </div>
 
       <div class="mb-5">
-        {{ job.description }}
+        <div>{{ truncatedDescription }}</div>
+        <button
+          class="text-green-500 hover:text-green-600 mb-5"
+          @click="toggleFullDescription"
+        >
+          {{ showFullDescription ? 'Less' : 'More' }}
+        </button>
       </div>
 
       <h3 class="text-green-500 mb-2">{{ job.salary }} / Year</h3>
@@ -42,7 +46,7 @@ defineProps({
 
       <div class="flex flex-col lg:flex-row justify-between mb-4">
         <div class="text-orange-700 mb-3">
-          <i class="fa-solid fa-location-dot text-lg"></i>
+          <i class="pi pi-map-marker text-orange-700"></i>
           {{ job.location }}
         </div>
         <a
