@@ -1,8 +1,10 @@
 <script setup>
-import jobData from '@/jobs.json';
+// import jobData from '@/jobs.json';
 import JobListing from './JobListing.vue';
-import { ref, defineProps } from 'vue';
+import { ref, reactive, defineProps, onMounted } from 'vue';
 import { RouterLink } from 'vue-router';
+import axios from 'axios';
+import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
 
 defineProps({
   limit: Number,
@@ -12,7 +14,27 @@ defineProps({
   },
 });
 
-const jobs = ref(jobData);
+// ref() can take object or primitives.
+// Has a .value property for reassigning
+// const jobs = ref([]);
+
+// reactive() only takes object.
+// It does not take primitives like strings, numbers and booleans.
+// It usese 'ref()' under the hood.
+// Doesn't use .value and it can't be reassigned
+const state = reactive({ jobs: [], isLoading: true });
+
+onMounted(async () => {
+  try {
+    const response = await axios.get('http://localhost:5000/jobs');
+    state.jobs = response.data;
+    // ref() way - jobs.value = response.data;
+  } catch (error) {
+    console.error('Error fetching jobs', error);
+  } finally {
+    state.isLoading = false;
+  }
+});
 </script>
 
 <template>
@@ -21,9 +43,14 @@ const jobs = ref(jobData);
       <h2 class="text-3xl font-bold text-green-500 mb-6 text-center">
         Browse Jobs
       </h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Show loading spinner while loading is true -->
+      <div v-if="state.isLoading" class="text-center py-6">
+        <PulseLoader />
+      </div>
+      <!-- Show job listings after done loading -->
+      <div v-else class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <JobListing
-          v-for="job in jobs.slice(0, limit || jobs.length)"
+          v-for="job in state.jobs.slice(0, limit || state.jobs.length)"
           :key="job.id"
           :job="job"
         />
