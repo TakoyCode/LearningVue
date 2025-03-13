@@ -20,8 +20,7 @@ onMounted(async () => {
   } catch (error) {
     console.error('Error fetching job', error);
   } finally {
-    // state.isLoading = false;
-    // console.log(state.job);
+    state.isLoading = false;
   }
 });
 </script>
