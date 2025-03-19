@@ -3,7 +3,8 @@
 import JobListing from './JobListing.vue';
 import { ref, reactive, defineProps, onMounted } from 'vue';
 import { RouterLink } from 'vue-router';
-import axios from 'axios';
+// import axios from 'axios';
+import api from '@/services/api';
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
 
 defineProps({
@@ -26,7 +27,7 @@ const state = reactive({ jobs: [], isLoading: true });
 
 onMounted(async () => {
   try {
-    const response = await axios.get('/api/jobs');
+    const response = await api.get('/jobs');
     state.jobs = response.data;
     // ref() way - jobs.value = response.data;
   } catch (error) {
