@@ -5,13 +5,14 @@ import vueDevTools from 'vite-plugin-vue-devtools';
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: 'vue-crashcourse',
+  base: '/LearningVue/',
   plugins: [vue(), vueDevTools()],
   server: {
     port: 3000,
     proxy: {
       '/api': {
-        target: 'http://localhost:5000',
+        target: 'https://vue-crashcourse-json-server.onrender.com/',
+        // target: 'http://localhost:5000',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
